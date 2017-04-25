@@ -1,16 +1,16 @@
 import numpy as np
+from sklearn.base import BaseEstimator, RegressorMixin
 
 from ..kernels import gaussian_kernel
-from ..stats import mean_squared_error
 
 
-class KernelRidgeRegression(object):
+class KernelRidgeRegression(BaseEstimator, RegressorMixin):
     def __init__(self, kernel=gaussian_kernel, h=0.1, l2=0.0):
         self.kernel = kernel
         self.h = h
         self.l2 = l2
         self.theta = None
-        self._X_fit = None
+        self.X_ = None
     
     def fit(self, X, y):
         n_samples = X.shape[0]
@@ -18,14 +18,11 @@ class KernelRidgeRegression(object):
         self.theta = np.linalg.solve(
             K.dot(K) + self.l2 * np.eye(n_samples),
             np.transpose(K).dot(y))
-        self._X_fit = X
+        self.X_ = X
     
     def predict(self, X):
-        K = self._get_kernel(X, self._X_fit)
+        K = self._get_kernel(X, self.X_)
         return K.dot(self.theta)
-    
-    def evaluate(self, X, y):
-        return mean_squared_error(self.predict(X), y)
     
     @property
     def _get_kernel(self):
