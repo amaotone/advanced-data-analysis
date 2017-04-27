@@ -3,7 +3,7 @@
 各手法の実装例です。
 
 scikit-learnの`BaseEstimator`と`RegressorMixin`または`ClassifierMixin`を継承することで
-scikit-learnの`GridSearchCV`などを流用することができます。やったね！
+scikit-learnの`GridSearchCV`などを流用することができます。やったね:blush:
 
 ## 実装済みの手法
 
